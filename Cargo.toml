@@ -1,0 +1,21 @@
+[package]
+name = "gray-plannotator"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Annotated plan review: /plan-review opens a plan for user annotation, diffs markdown comments back as revision prompts until /plan-accept"
+
+[lib]
+name = "gray_plannotator"
+path = "src/lib.rs"
+
+[[bin]]
+name = "gray-plannotator"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+strip = true
