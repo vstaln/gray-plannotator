@@ -1,6 +1,6 @@
 [package]
 name = "gray-plannotator"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 license = "MIT"
 description = "Annotated plan review: /plan-review opens a plan for user annotation, diffs markdown comments back as revision prompts until /plan-accept"
