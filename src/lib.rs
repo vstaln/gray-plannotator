@@ -124,7 +124,10 @@ pub fn load_state(cwd: &Path) -> Option<ReviewState> {
 
 fn save_state(cwd: &Path, st: &ReviewState) -> std::io::Result<()> {
     std::fs::create_dir_all(plan_dir(cwd))?;
-    std::fs::write(state_path(cwd), serde_json::to_string(st).unwrap_or_default())
+    std::fs::write(
+        state_path(cwd),
+        serde_json::to_string(st).unwrap_or_default(),
+    )
 }
 
 fn clear_state(cwd: &Path) {
@@ -269,7 +272,12 @@ pub fn diff_text_edits(baseline: &str, current: &str) -> (Vec<String>, Vec<Strin
 
 /// The revision prompt: what `command/run` hands back as `{"prompt": …}`
 /// so the host submits it as a user turn.
-pub fn revision_prompt(st: &ReviewState, annotations: &[Annotation], added: &[String], removed: &[String]) -> String {
+pub fn revision_prompt(
+    st: &ReviewState,
+    annotations: &[Annotation],
+    added: &[String],
+    removed: &[String],
+) -> String {
     let mut p = format!(
         "The user reviewed your plan at `{}` and left feedback (round {}).\n",
         st.rel_path,
@@ -306,7 +314,8 @@ pub fn revision_prompt(st: &ReviewState, annotations: &[Annotation], added: &[St
     p
 }
 
-const ANNOTATE_HOWTO: &str = "annotate it in $EDITOR: wrap notes as `<!-- comment -->` lines or edit the text directly. \
+const ANNOTATE_HOWTO: &str =
+    "annotate it in $EDITOR: wrap notes as `<!-- comment -->` lines or edit the text directly. \
 Then `/plan-review` sends your feedback to the agent · `/plan-accept` approves the plan as-is.";
 
 const WRITE_PLAN_PROMPT: &str = "Write your implementation plan to `{ABS}` as markdown (create the file). \
@@ -487,6 +496,7 @@ pub fn manifest() -> Value {
         "sidecar_args": ["sidecar"],
         "tools": [],
         "commands": [PLAN_REVIEW, PLAN_ACCEPT],
+        "command_descriptions": {"/plan-review": "review a plan before it runs", "/plan-accept": "accept the reviewed plan"},
         "hooks": ["prompt/context"],
         "completion": ["status", "path", "cancel", "help"],
     })
@@ -554,7 +564,11 @@ mod tests {
         };
         let p = revision_prompt(
             &st,
-            &[Annotation { text: "rethink".into(), line: 3, context: "step".into() }],
+            &[Annotation {
+                text: "rethink".into(),
+                line: 3,
+                context: "step".into(),
+            }],
             &["added line".into()],
             &["gone".into()],
         );
