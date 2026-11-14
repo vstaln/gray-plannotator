@@ -495,6 +495,7 @@ pub fn manifest() -> Value {
         "protocol": PROTOCOL,
         "sidecar_args": ["sidecar"],
         "tools": [],
+        "description": "annotate",
         "commands": [PLAN_REVIEW, PLAN_ACCEPT],
         "command_descriptions": {"/plan-review": "review a plan before it runs", "/plan-accept": "accept the reviewed plan"},
         "hooks": ["prompt/context"],
